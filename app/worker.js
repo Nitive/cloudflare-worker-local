@@ -73,10 +73,10 @@ class Worker {
     this.upstreamHost = upstreamHost;
     this.origin = origin;
 
-    this.evaluateWorkerContents(workerContents, kvStores, env);
+    this.evaluateWorkerContents(workerContents, kvStores, env, opts.caches || caches);
   }
 
-  evaluateWorkerContents(workerContents, kvStores, env) {
+  evaluateWorkerContents(workerContents, kvStores, env, caches) {
     const context = {
       // From fetch
       Request,
