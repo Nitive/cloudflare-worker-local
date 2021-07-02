@@ -71,7 +71,7 @@ class Worker {
       fetch: e => e.respondWith(this.fetchUpstream(e.request))
     };
     this.upstreamHost = upstreamHost;
-    this.origin = origin;
+    this.upstreamHosts = [origin, ...opts.upstreamHosts]
 
     this.evaluateWorkerContents(workerContents, kvStores, env, opts.caches || caches);
   }
@@ -127,7 +127,7 @@ class Worker {
     const url = new URL(request.url);
     const originalHost = url.host;
 
-    if (originalHost === this.origin) {
+    if (this.upstreamHosts.includes(originalHost)) {
       url.host = this.upstreamHost;
       request = new Request(url, request);
       request.headers.set("Host", originalHost);
